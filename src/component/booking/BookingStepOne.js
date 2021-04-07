@@ -20,16 +20,16 @@ export default class BookingStepOne extends Component {
         <div className="stepper">
           <ul className="row">
             <li className="col-md-4 active">
-              {/* <a href="reservation-1.html"><span data-text="Room & rates" /></a> */}
-              <NavLink to="/booking-step-one"><span data-text="Room & rates"/></NavLink>
+              <a href="reservation-1.html"><span data-text="Room & rates" /></a>
+              {/* <NavLink to="/booking-step-one"><span data-text="Room & rates"/></NavLink> */}
             </li>
             <li className="col-md-4">
-              {/* <a href="reservation-2.html"><span data-text="Reservation" /></a> */}
-              <NavLink to="/booking-step-two"><span data-text="Reservation" /></NavLink>
+              <a href="reservation-2.html"><span data-text="Reservation" /></a>
+              {/* <NavLink to="/booking-step-two"><span data-text="Reservation" /></NavLink> */}
             </li>
             <li className="col-md-4">
-              {/* <a href="reservation-3.html"><span data-text="Checkout" /></a> */}
-              <NavLink to="/booking-step-three" class="btn btn-main" ><span data-text="Checkout" />Checkout</NavLink>
+              <a href="reservation-3.html"><span data-text="Checkout" /></a>
+              {/* <NavLink to="/booking-step-three" class="btn btn-main" ><span data-text="Checkout" />Checkout</NavLink> */}
             </li>
           </ul>
         </div>

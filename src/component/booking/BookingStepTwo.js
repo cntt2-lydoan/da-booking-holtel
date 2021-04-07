@@ -273,7 +273,7 @@ export default class BookingStepTwo extends Component {
                                             </div>
                                             <div>
                                                 {/* <a href="reservation-3.html" className="btn btn-main">Checkout <span className="icon icon-chevron-right" /></a> */}
-                                                <NavLink to="/booking-step-three">Checkout <span className="icon icon-chevron-right" /></NavLink>
+                                                <NavLink to="/booking-step-three" class="btn btn-main">Checkout <span className="icon icon-chevron-right" /></NavLink>
                                             </div>
                                         </div>
                                     </div>

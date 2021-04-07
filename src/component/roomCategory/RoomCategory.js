@@ -34,7 +34,7 @@ export default class RoomCategory extends Component {
                                                     <div className="book">
                                                         <div>
                                                             {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one">Booking One</NavLink>
+                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
                                                         </div>
                                                         <div>
                                                             <span className="price h2">€ 299,00</span>
@@ -60,7 +60,7 @@ export default class RoomCategory extends Component {
                                                     <div className="book">
                                                         <div>
                                                             {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one">Booking One</NavLink>
+                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
                                                         </div>
                                                         <div>
                                                             <span className="price h2">€ 199,00</span>
@@ -86,7 +86,7 @@ export default class RoomCategory extends Component {
                                                     <div className="book">
                                                         <div>
                                                             {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one">Booking One</NavLink>
+                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
                                                         </div>
                                                         <div>
                                                             <span className="price h2">€ 98,00</span>
@@ -112,7 +112,7 @@ export default class RoomCategory extends Component {
                                                     <div className="book">
                                                         <div>
                                                             {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one">Booking One</NavLink>
+                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
                                                         </div>
                                                         <div>
                                                             <span className="price h2">€ 129,00</span>
@@ -138,7 +138,7 @@ export default class RoomCategory extends Component {
                                                     <div className="book">
                                                         <div>
                                                             {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one">Booking One</NavLink>
+                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
                                                         </div>
                                                         <div>
                                                             <span className="price h2">€ 159,00</span>
