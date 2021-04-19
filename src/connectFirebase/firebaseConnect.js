@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+// import "firebase/auth"
 // import firebase from 'firebase/app';
 var firebaseConfig = {
     apiKey: "AIzaSyCtTD4xWZXEAFLP9hORAVLvBZhRHPmZwlU",
@@ -9,9 +10,10 @@ var firebaseConfig = {
     appId: "1:555713105963:web:9bb769289c067adddc1a6e",
     measurementId: "G-2L3ZBJS38F"
   };
+  // export const auth = firebaseConfig.auth();
   export const firebaseConnect = firebase.initializeApp(firebaseConfig);
 
   var data = firebase.database().ref('booking-hotel-5cb23-default-rtdb/' + 'content');
   data.once('value').then(function(snapshot){
-    console.log(snapshot);
+    // console.log(snapshot);
   })
