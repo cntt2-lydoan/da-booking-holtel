@@ -1,8 +1,44 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import { datas } from './../../connectFirebase/firebaseConnect';
+import { chuyenDoiURL, getCurrentDate } from './../../utils/notification';
 
 export default class BookingStepTwo extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+
+            room: {
+                id: this.props.match.params.id,
+                facility: [],
+                listImage: []
+            }
+        }
+    }
+    componentDidMount() {
+
+        datas.ref('room').child(this.props.match.params.id).on("value", res => {
+            console.log(res.val())
+            this.setState({
+                room: res.val()
+            });
+        })
+    }
+
+    redirectThree = (r) => {
+        this.props.history.push(`/booking-step-three/id=/${this.props.match.params.id}/name=/${chuyenDoiURL(r.name)}`)
+    }
+
+    
+
+    ridirectBack = (r) => {
+        this.props.history.push(`/booking-step-one/id=/${this.props.match.params.id}/name=/${chuyenDoiURL(r.name)}}`)
+    }
+
+
     render() {
+        const {room} = this.state;
         return (
             <div>
                 {/* ========================  Checkout ======================== */}
@@ -20,13 +56,13 @@ export default class BookingStepTwo extends Component {
                             <div className="stepper">
                                 <ul className="row">
                                     <li className="col-md-4 active">
-                                        <a href="reservation-1.html"><span data-text="Room & rates" /></a>
+                                        <span data-text="Room & rates"  />
                                     </li>
                                     <li className="col-md-4 active">
-                                        <a href="reservation-2.html"><span data-text="Reservation" /></a>
+                                        <span data-text="Reservation" />
                                     </li>
                                     <li className="col-md-4">
-                                        <a href="reservation-3.html"><span data-text="Checkout" /></a>
+                                        <span data-text="Checkout"/>
                                     </li>
                                 </ul>
                             </div>
@@ -199,81 +235,13 @@ export default class BookingStepTwo extends Component {
                                 </div>
                                 {/* ========================  Cart wrapper ======================== */}
                                 <div className="cart-wrapper">
-                                    {/*cart header */}
-                                    <div className="cart-block cart-block-header clearfix">
-                                        <div>
-                                            <span>Room type</span>
-                                        </div>
-                                        <div className="text-right">
-                                            <span>Price</span>
-                                        </div>
-                                    </div>
-                                    {/*cart items*/}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-item clearfix">
-                                            <div className="image">
-                                                <a href="room-overview.html"><img src="assets/images/room-4.jpg" alt="" /></a>
-                                            </div>
-                                            <div className="title">
-                                                <div className="h2"><a href="room-overview.html">Luxury appartment</a></div>
-                                                <div>
-                                                    <strong>Arrival date</strong> <a href="#">(September 22, 2017)</a>
-                                                </div>
-                                                <div>
-                                                    <strong>Guests</strong> 2 Adults, 1 Child
-                  </div>
-                                                <div>
-                                                    <strong>Nights</strong> 7
-                  </div>
-                                            </div>
-                                            <div className="price">
-                                                <span className="final h3">$ 1.998</span>
-                                                <span className="discount">$ 2.666</span>
-                                            </div>
-                                            {/*delete-this-item*/}
-                                            <span className="icon icon-cross icon-delete" />
-                                        </div>
-                                    </div>
-                                    {/*cart prices */}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-footer clearfix">
-                                            <div>
-                                                <strong>Discount 15%</strong>
-                                            </div>
-                                            <div>
-                                                <span>$ 159,00</span>
-                                            </div>
-                                        </div>
-                                        <div className="cart-block cart-block-footer clearfix">
-                                            <div>
-                                                <strong>TAX</strong>
-                                            </div>
-                                            <div>
-                                                <span>$ 59,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/*cart final price */}
                                     <div className="clearfix">
                                         <div className="cart-block cart-block-footer cart-block-footer-price clearfix">
                                             <div>
-                                                Promo code included!
-                </div>
-                                            <div>
-                                                <div className="h2 title">$ 1259,00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* ========================  Cart navigation ======================== */}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-footer cart-block-footer-price clearfix">
-                                            <div>
-                                                {/* <a href="reservation-1.html" className="btn btn-clean-dark">Back</a> */}
-                                                <NavLink to="/booking-step-one" className="btn btn-clean-dark">Back</NavLink>
+                                                <div onClick={()=> this.ridirectBack(room)} className="btn btn-clean-dark">Back</div>
                                             </div>
                                             <div>
-                                                {/* <a href="reservation-3.html" className="btn btn-main">Checkout <span className="icon icon-chevron-right" /></a> */}
-                                                <NavLink to="/booking-step-three" class="btn btn-main">Checkout <span className="icon icon-chevron-right" /></NavLink>
+                                                <div onClick={() => this.redirectThree(room)} class="btn btn-main">Checkout <span className="icon icon-chevron-right" /></div>
                                             </div>
                                         </div>
                                     </div>
@@ -281,21 +249,6 @@ export default class BookingStepTwo extends Component {
                             </div>
                         </div> {/*/container*/}
                     </div> {/*/checkout*/}
-                </section>
-                {/* ========================  Subscribe ======================== */}
-                <section className="subscribe">
-                    <div className="container">
-                        <div className="box">
-                            <h2 className="title">Subscribe</h2>
-                            <div className="text">
-                                <p>&amp; receive free premium gifts</p>
-                            </div>
-                            <div className="form-group">
-                                <input type="text" defaultValue placeholder="Subscribe" className="form-control" />
-                                <button className="btn btn-sm btn-main">Go</button>
-                            </div>
-                        </div>
-                    </div>
                 </section>
             </div>
 

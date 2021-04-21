@@ -1,8 +1,82 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import Slider from 'react-slick';
+import { datas } from './../../connectFirebase/firebaseConnect';
+import { chuyenDoiURL } from './../../utils/notification';
 
 export default class RoomOverview extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            
+            room: {
+                id: this.props.match.params.id,
+                facility: [],
+                listImage: []
+            }
+        }
+    }
+    componentDidMount() {
+
+        datas.ref('room').child(this.props.match.params.id).on("value", res => {
+            console.log(res.val())
+            this.setState({
+                room: res.val()
+            });
+        })
+    }
+
+    getFacility = (arr) => {
+        const {room}=this.state;
+        console.log(arr);
+        let res = arr.map((v, k) => {
+            return (
+                <div className={`col-md-`+12/(arr.length +1)}>
+                    <figure>
+                        <figcaption>
+                            <span className="fa fa-bed" />
+                            <p>{v}</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            )
+        })
+        return (<div className="row">
+            {res}
+            {<div className={`col-md-`+12/(arr.length +1)}>
+                <figure>
+                    <figcaption>
+                        <span className="fa fa-bed" />
+                        <p>{room.capacity} person</p>
+                    </figcaption>
+                </figure>
+            </div>}
+        </div>)
+    }
+    redirectToBooking(room) {
+        this.props.history.push(`/booking-step-one/id=/${this.props.match.params.id}/name=/${chuyenDoiURL(room.name)}`)
+    }
+    getSlide = (arr) => {
+        let res = arr.map((val, key) => {
+            return (
+                <div className="item" key={key}>
+                    <img src={val} alt="" />
+                </div>
+            )
+        });
+        return res;
+    }
+
     render() {
+        const { room } = this.state;
+        console.log(room);
+        var settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
         return (
             <div>
                 <div>
@@ -19,20 +93,10 @@ export default class RoomOverview extends Component {
                             {/* === Room gallery === */}
                             <div className="room-gallery">
                                 <div className="container">
-                                    <div className="owl-slider owl-theme owl-slider-gallery">
-                                        {/* === slide item === */}
-                                        <div className="item" style={{ backgroundImage: 'url(assets/images/room-4.jpg)' }}>
-                                            <img src="assets/images/room-4.jpg" alt="" />
-                                        </div>
-                                        {/* === slide item === */}
-                                        <div className="item" style={{ backgroundImage: 'url(assets/images/room-2.jpg)' }}>
-                                            <img src="assets/images/room-2.jpg" alt="" />
-                                        </div>
-                                        {/* === slide item === */}
-                                        <div className="item" style={{ backgroundImage: 'url(assets/images/room-1.jpg)' }}>
-                                            <img src="assets/images/room-1.jpg" alt="" />
-                                        </div>
-                                    </div> {/*/owl-slider*/}
+                                    <Slider {...settings}>
+                                        {this.getSlide(room.listImage)}
+                                    </Slider>
+
                                 </div>
                             </div> {/*/room-gallery*/}
                             {/* === Booking === */}
@@ -118,13 +182,9 @@ export default class RoomOverview extends Component {
                                             </div>
                                             {/*=== button ===*/}
                                             <div className="col-xs-12 col-sm-4">
-                                                {/* <a href="reservation-1.html" className="btn btn-clean">
-                                                    Book now
-                  <small>Best Prices Guaranteed</small>
-                                                </a> */}
-                                                <NavLink to="/booking-step-one" className="btn btn-clean" > Book now
+                                                <div className="btn btn-clean" onClick={() => this.redirectToBooking(room)} > Book now
                                                 <small>Best Prices Guaranteed</small>
-                                                </NavLink>
+                                                </div>
                                             </div>
                                         </div> {/*/row*/}
                                     </div>{/*/booking-wrapper*/}
@@ -134,77 +194,19 @@ export default class RoomOverview extends Component {
                             <div className="room-overview">
                                 <div className="container">
                                     <div className="row">
-                                        <div className="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                                        <div className="col-sm-12 col-sm-offset-1 col-md-12 col-md-offset-12    ">
                                             {/* === Room aminities === */}
                                             <div className="room-block room-aminities">
                                                 <h2 className="title">Room aminities</h2>
-                                                <div className="row">
-                                                    {/*=== item ===*/}
-                                                    <div className="col-xs-6 col-sm-2">
-                                                        <figure>
-                                                            <figcaption>
-                                                                <span className="hotelicon hotelicon-air-condition" />
-                                                                <p>Aircondition</p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    {/*=== item ===*/}
-                                                    <div className="col-xs-6 col-sm-2">
-                                                        <figure>
-                                                            <figcaption>
-                                                                <span className="hotelicon hotelicon-king-bed" />
-                                                                <p>1 Kingsize bed</p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    {/*=== item ===*/}
-                                                    <div className="col-xs-6 col-sm-2">
-                                                        <figure>
-                                                            <figcaption>
-                                                                <span className="hotelicon hotelicon-guest" />
-                                                                <p>2 People</p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    {/*=== item ===*/}
-                                                    <div className="col-xs-6 col-sm-2">
-                                                        <figure>
-                                                            <figcaption>
-                                                                <span className="hotelicon hotelicon-wifi" />
-                                                                <p>Internet</p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    {/*=== item ===*/}
-                                                    <div className="col-xs-6 col-sm-2">
-                                                        <figure>
-                                                            <figcaption>
-                                                                <span className="hotelicon hotelicon-washer" />
-                                                                <p>Washer</p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    {/*=== item ===*/}
-                                                    <div className="col-xs-6 col-sm-2">
-                                                        <figure>
-                                                            <figcaption>
-                                                                <span className="hotelicon hotelicon-roomservice" />
-                                                                <p>Room service</p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                </div>
+                                                    {this.getFacility(room.facility)}
+                                                    
                                             </div>
                                             {/* === Room block === */}
                                             <div className="room-block">
                                                 <h2 className="title">Room overview</h2>
-                                                <p>
-                                                    The Superior Rooms pay tribute to fashion and craftsmanship. The rooms are approximately 19m2 with views of Rue d'Alger and Jardin des Tuileries.
-                                                    The selection and pairing of materials has been carefully chosen to give you a cool experience. The super soft bed topper is simply extravagant!
-                                                    Every room is different but the colour palette uses unique and expertly matched hues.
-                                                    An openwork brass screen separates the bathroom from the bedroom. This original feature helps make every room your very own cosy and peaceful haven.
-                                                    Bathrobes, slippers and SOTHYS toiletries are provided in the bathroom to pamper you.
-                </p>
+                                                <p style={{textAlign:'center'}}>
+                                                    {room.description}
+                                                </p>
                                             </div>
                                             {/* === Room block === */}
                                             <div className="room-block">
@@ -387,165 +389,7 @@ export default class RoomOverview extends Component {
                             </div> {/*/row*/}
                         </div> {/*/container*/}
                     </section>
-                    {/* ========================  Stretcher widget ======================== */}
-                    <section className="stretcher-wrapper">
-                        {/* === stretcher header === */}
-                        <div className="section-header">
-                            <div className="container">
-                                <h2 className="title">Resort facilities <a href="facility.html" className="btn btn-sm btn-clean-dark">Explore more</a></h2>
-                                <p>
-                                    With the best luxury spa, salon and fitness experiences
-        </p>
-                            </div>
-                        </div>
-                        {/* === stretcher === */}
-                        <ul className="stretcher">
-                            {/* === stretcher item === */}
-                            <li className="stretcher-item" style={{ backgroundImage: 'url(assets/images/services-1.jpg)' }}>
-                                {/*logo-item*/}
-                                <div className="stretcher-logo">
-                                    <div className="text">
-                                        <span className="text-intro h4">Spa center</span>
-                                    </div>
-                                </div>
-                                {/*main text*/}
-                                <figure>
-                                    <h4>Spa center</h4>
-                                    <figcaption>Unparalleled devotion to luxury</figcaption>
-                                </figure>
-                                {/*anchor*/}
-                                <a href="facility.html">Anchor link</a>
-                            </li>
-                            {/* === stretcher item === */}
-                            <li className="stretcher-item" style={{ backgroundImage: 'url(assets/images/services-2.jpg)' }}>
-                                {/*logo-item*/}
-                                <div className="stretcher-logo">
-                                    <div className="text">
-                                        <span className="text-intro h4">Gym</span>
-                                    </div>
-                                </div>
-                                {/*main text*/}
-                                <figure>
-                                    <h4>Gym</h4>
-                                    <figcaption>Care about results</figcaption>
-                                </figure>
-                                {/*anchor*/}
-                                <a href="facility.html">Anchor link</a>
-                            </li>
-                            {/* === stretcher item === */}
-                            <li className="stretcher-item" style={{ backgroundImage: 'url(assets/images/services-3.jpg)' }}>
-                                {/*logo-item*/}
-                                <div className="stretcher-logo">
-                                    <div className="text">
-                                        <span className="text-intro h4">Fitness</span>
-                                    </div>
-                                </div>
-                                <figure>
-                                    <h4>Fitness</h4>
-                                    <figcaption>Your daily activities</figcaption>
-                                </figure>
-                                {/*anchor*/}
-                                <a href="facility.html">Anchor link</a>
-                            </li>
-                            {/* === stretcher item === */}
-                            <li className="stretcher-item" style={{ backgroundImage: 'url(assets/images/services-4.jpg)' }}>
-                                {/*logo-item*/}
-                                <div className="stretcher-logo">
-                                    <div className="text">
-                                        <span className="text-intro h4">Beauty salon</span>
-                                    </div>
-                                </div>
-                                {/*main text*/}
-                                <figure>
-                                    <h4>Beauty salon</h4>
-                                    <figcaption>Hair salons and spas</figcaption>
-                                </figure>
-                                {/*anchor*/}
-                                <a href="facility.html">Anchor link</a>
-                            </li>
-                            {/* === stretcher item more === */}
-                            <li className="stretcher-item more">
-                                <div className="more-icon">
-                                    <span data-title-show="Show more" data-title-hide="+" />
-                                </div>
-                                <a href="facility.html">Anchor link</a>
-                            </li>
-                        </ul>
-                    </section>
-                    {/* ========================  Cards ======================== */}
-                    <section className="cards">
-                        {/* === cards header === */}
-                        <div className="section-header">
-                            <div className="container">
-                                <h2 className="title">Near by <a href="#" className="btn btn-sm btn-clean-dark">View all</a></h2>
-                                <p>Here's a selection of ionic sites related to art, fashion and design.</p>
-                            </div>
-                        </div>
-                        <div className="container">
-                            <div className="row">
-                                {/* === item === */}
-                                <div className="col-xs-12 col-md-8">
-                                    <figure>
-                                        <figcaption style={{ backgroundImage: 'url(assets/images/activity-1.jpg)' }}>
-                                            <img src="assets/images/activity-1.jpg" alt="" />
-                                        </figcaption>
-                                        <a href="#" className="btn btn-clean" onclick>Museums</a>
-                                    </figure>
-                                </div>
-                                {/* === item === */}
-                                <div className="col-xs-6 col-md-4">
-                                    <figure>
-                                        <figcaption style={{ backgroundImage: 'url(assets/images/activity-2.jpg)' }}>
-                                            <img src="assets/images/activity-2.jpg" alt="" />
-                                        </figcaption>
-                                        <a href="#" className="btn btn-clean">Nightlife</a>
-                                    </figure>
-                                </div>
-                                {/* === item === */}
-                                <div className="col-xs-6 col-md-4">
-                                    <figure>
-                                        <figcaption style={{ backgroundImage: 'url(assets/images/activity-3.jpg)' }}>
-                                            <img src="assets/images/activity-3.jpg" alt="" />
-                                        </figcaption>
-                                        <a href="#" className="btn btn-clean">Food &amp; drink</a>
-                                    </figure>
-                                </div>
-                                {/* === item === */}
-                                <div className="col-xs-6 col-md-4">
-                                    <figure>
-                                        <figcaption style={{ backgroundImage: 'url(assets/images/activity-4.jpg)' }}>
-                                            <img src="assets/images/activity-4.jpg" alt="" />
-                                        </figcaption>
-                                        <a href="#" className="btn btn-clean">Shopping</a>
-                                    </figure>
-                                </div>
-                                {/* === item === */}
-                                <div className="col-xs-6 col-md-4">
-                                    <figure>
-                                        <figcaption style={{ backgroundImage: 'url(assets/images/activity-5.jpg)' }}>
-                                            <img src="assets/images/activity-5.jpg" alt="" />
-                                        </figcaption>
-                                        <a href="#" className="btn btn-clean">The City</a>
-                                    </figure>
-                                </div>
-                            </div> {/*/row*/}
-                        </div> {/*/container*/}
-                    </section>
-                    {/* ========================  Subscribe ======================== */}
-                    <section className="subscribe">
-                        <div className="container">
-                            <div className="box">
-                                <h2 className="title">Subscribe</h2>
-                                <div className="text">
-                                    <p>&amp; receive free premium gifts</p>
-                                </div>
-                                <div className="form-group">
-                                    <input type="text" defaultValue placeholder="Subscribe" className="form-control" />
-                                    <button className="btn btn-sm btn-main">Go</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+
                 </div>
 
             </div>

@@ -24,10 +24,10 @@ export default class Direction extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/about-us" component={AboutUs}></Route> 
                 <Route exact path="/room-category" component={RoomCategory}></Route> 
-                <Route exact path="/room-overview" component={RoomOverview}></Route> 
-                <Route exact path="/booking-step-one" component={BookingStepOne}></Route> 
-                <Route exact path="/booking-step-two" component={BookingStepTwo}></Route> 
-                <Route exact path="/booking-step-three" component={BookingStepThree}></Route> 
+                <Route exact path="/room-details/id=/:id/name=/:name" component={RoomOverview}></Route> 
+                <Route exact path="/booking-step-one/id=/:id/name=/:name" component={BookingStepOne}></Route> 
+                <Route exact path="/booking-step-two/id=/:id/name=/:name" component={BookingStepTwo}></Route> 
+                <Route exact path="/booking-step-three/id=/:id/name=/:name" component={BookingStepThree}></Route> 
                 <Route exact path="/facilities" component={Facility}></Route> 
                 <Route exact path="/blog-category" component={BlogCategory}></Route> 
                 <Route exact path="/blog-item" component={BlogItem}></Route> 

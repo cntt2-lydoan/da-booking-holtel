@@ -1,8 +1,36 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import { chuyenDoiURL, getCurrentDate } from './../../utils/notification';
+import { datas } from './../../connectFirebase/firebaseConnect';
 
 export default class BookingStepThree extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+
+            room: {
+                id: this.props.match.params.id,
+                facility: [],
+                listImage: []
+            }
+        }
+
+    }
+
+    ridirectBack = (r) => {
+        this.props.history.push(`/booking-step-two/id=/${this.props.match.params.id}/name=/${chuyenDoiURL(r.name)}}`)
+    }
+    componentDidMount() {
+
+        datas.ref('room').child(this.props.match.params.id).on("value", res => {
+            console.log(res.val())
+            this.setState({
+                room: res.val()
+            });
+        })
+    }
     render() {
+        const {room} = this.state;
         return (
             <div>
                 {/* ========================  Checkout ======================== */}
@@ -118,13 +146,7 @@ export default class BookingStepThree extends Component {
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Order date</strong> <br />
-                                                                <span>06/30/2017</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <div className="form-group">
-                                                                <strong>Shipping arrival</strong> <br />
-                                                                <span>07/30/2017</span>
+                                                                <span>{getCurrentDate()}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -145,14 +167,8 @@ export default class BookingStepThree extends Component {
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
-                                                                <strong>Cart details</strong><br />
-                                                                <span>**** **** **** 5446</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <div className="form-group">
                                                                 <strong>Reservation type</strong><br />
-                                                                <span>Luxury appartment</span>
+                                                                <span>{room.name}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -161,104 +177,10 @@ export default class BookingStepThree extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                {/* ========================  Cart wrapper ======================== */}
-                                <div className="cart-wrapper">
-                                    {/*cart header */}
-                                    <div className="cart-block cart-block-header clearfix">
-                                        <div>
-                                            <span>Room type</span>
-                                        </div>
-                                        <div className="text-right">
-                                            <span>Price</span>
-                                        </div>
-                                    </div>
-                                    {/*cart items*/}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-item clearfix">
-                                            <div className="image">
-                                                <a href="room-overview.html"><img src="assets/images/room-4.jpg" alt="" /></a>
-                                            </div>
-                                            <div className="title">
-                                                <div className="h2"><a href="room-overview.html">Luxury appartment</a></div>
-                                                <div>
-                                                    <strong>Arrival date</strong> <a href="#">(September 22, 2017)</a>
-                                                </div>
-                                                <div>
-                                                    <strong>Guests</strong> 2 Adults, 1 Child
-                  </div>
-                                                <div>
-                                                    <strong>Nights</strong> 7
-                  </div>
-                                            </div>
-                                            <div className="price">
-                                                <span className="final h3">$ 1.998</span>
-                                                <span className="discount">$ 2.666</span>
-                                            </div>
-                                            {/*delete-this-item*/}
-                                            <span className="icon icon-cross icon-delete" />
-                                        </div>
-                                    </div>
-                                    {/*cart prices */}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-footer clearfix">
-                                            <div>
-                                                <strong>Discount 15%</strong>
-                                            </div>
-                                            <div>
-                                                <span>$ 159,00</span>
-                                            </div>
-                                        </div>
-                                        <div className="cart-block cart-block-footer clearfix">
-                                            <div>
-                                                <strong>TAX</strong>
-                                            </div>
-                                            <div>
-                                                <span>$ 59,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/*cart final price */}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-footer cart-block-footer-price clearfix">
-                                            <div>
-                                                Promo code included!
-                </div>
-                                            <div>
-                                                <div className="h2 title">$ 1259,00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* ========================  Cart navigation ======================== */}
-                                    <div className="clearfix">
-                                        <div className="cart-block cart-block-footer cart-block-footer-price clearfix">
-                                            <div>
-                                                {/* <a href="reservation-1.html" className="btn btn-clean-dark">Back</a> */}
-                                                <NavLink to="/booking-step-two" className="btn btn-clean-dark"><span data-text="Reservation" />Back</NavLink>
-                                            </div>
-                                            <div>
-                                                <a onclick="window.print()" className="btn btn-main">Print <span className="icon icon-printer" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
-                        </div> {/*/container*/}
-                    </div> {/*/checkout*/}
-                </section>
-                {/* ========================  Subscribe ======================== */}
-                <section className="subscribe">
-                    <div className="container">
-                        <div className="box">
-                            <h2 className="title">Subscribe</h2>
-                            <div className="text">
-                                <p>&amp; receive free premium gifts</p>
-                            </div>
-                            <div className="form-group">
-                                <input type="text" defaultValue placeholder="Subscribe" className="form-control" />
-                                <button className="btn btn-sm btn-main">Go</button>
-                            </div>
-                        </div>
-                    </div>
+                        </div> 
+                    </div> 
                 </section>
             </div>
 

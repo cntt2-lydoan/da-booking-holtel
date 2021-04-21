@@ -1,8 +1,80 @@
+import axios from 'axios';
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import { chuyenDoiURL } from './../../utils/notification';
 
 export default class RoomCategory extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            arrayData: []
+        }
+    }
+    componentDidMount() {
+        let objects = [];
+
+        axios.get('https://booking-hotel-5cb23-default-rtdb.firebaseio.com/room.json')
+            .then((response) => {
+                if (response.data !== null) {
+                    const data = response.data;
+                    console.log(data);
+
+                    objects = Object.values(response.data);
+                    const keys = Object.keys(data);
+
+                    objects.map((values, key) => {
+                        values.id = keys[key];
+                    });
+                    console.log(objects);
+                    this.setState({
+                        arrayData: objects
+                    });
+                }
+
+            });
+
+    }
+    redirectToDetails(value) {
+        this.props.history.push(`/room-details/id=/${value.id}/name=/${chuyenDoiURL(value.name)}`)
+    }
+
+    renderRoom = (array) => {
+        let res = array.map((value, key) => {
+            return (
+                <div className={key < 2 ? "col-sm-6 col-md-6" : "col-sm-6 col-md-4"}>
+                    <div className="item">
+                        <article>
+                            <div className="image" onClick={() => this.redirectToDetails(value)}>
+                                <img src={value.listImage[0]} alt="" />
+                            </div>
+                            <div className="details">
+                                <div className="text">
+                                    {/* <a href="room-overview.html">Presidential Suite</a> */}
+                                    <h2 className="title"><NavLink to="/room-overview" onClick={() => this.redirectToDetails(value)}>{value.name}</NavLink></h2>
+                                    <p>{value.categoryRoom}</p>
+                                </div>
+                                <div className="book">
+                                    <div>
+                                        {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
+                                        <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
+                                    </div>
+                                    <div>
+                                        <span className="price h2">{value.unit} {value.price}</span>
+                                        <span>per night</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            )
+        })
+        return res;
+    }
+
     render() {
+        console.log(this.state.arrayData);
+        const { arrayData } = this.state;
         return (
             <div>
                 <div>
@@ -18,137 +90,7 @@ export default class RoomCategory extends Component {
                         <div className="rooms rooms-category">
                             <div className="container">
                                 <div className="row">
-                                    {/* === rooms item === */}
-                                    <div className="col-sm-6 col-md-6">
-                                        <div className="item">
-                                            <article>
-                                                <div className="image">
-                                                    <img src="assets/images/apartment-1.jpg" alt="" />
-                                                </div>
-                                                <div className="details">
-                                                    <div className="text">
-                                                    {/* <a href="room-overview.html">Presidential Suite</a> */}
-                                                        <h2 className="title"><NavLink to="/room-overview">Presidential Suite</NavLink></h2>
-                                                        <p>Family room</p>
-                                                    </div>
-                                                    <div className="book">
-                                                        <div>
-                                                            {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
-                                                        </div>
-                                                        <div>
-                                                            <span className="price h2">€ 299,00</span>
-                                                            <span>per night</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>
-                                    {/* === rooms item === */}
-                                    <div className="col-sm-6 col-md-6">
-                                        <div className="item">
-                                            <article>
-                                                <div className="image">
-                                                    <img src="assets/images/apartment-2.jpg" alt="" />
-                                                </div>
-                                                <div className="details">
-                                                    <div className="text">
-                                                        <h2 className="title"><a href="room-overview.html">Luxury appartment</a></h2>
-                                                        <p>Family room</p>
-                                                    </div>
-                                                    <div className="book">
-                                                        <div>
-                                                            {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
-                                                        </div>
-                                                        <div>
-                                                            <span className="price h2">€ 199,00</span>
-                                                            <span>per night</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>
-                                    {/* === rooms item === */}
-                                    <div className="col-sm-6 col-md-4">
-                                        <div className="item">
-                                            <article>
-                                                <div className="image">
-                                                    <img src="assets/images/room-1.jpg" alt="" />
-                                                </div>
-                                                <div className="details">
-                                                    <div className="text">
-                                                        <h2 className="title"><a href="room-overview.html">Club Room</a></h2>
-                                                        <p>Single room</p>
-                                                    </div>
-                                                    <div className="book">
-                                                        <div>
-                                                            {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
-                                                        </div>
-                                                        <div>
-                                                            <span className="price h2">€ 98,00</span>
-                                                            <span>per night</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>
-                                    {/* === rooms item === */}
-                                    <div className="col-sm-6 col-md-4">
-                                        <div className="item">
-                                            <article>
-                                                <div className="image">
-                                                    <img src="assets/images/room-2.jpg" alt="" />
-                                                </div>
-                                                <div className="details">
-                                                    <div className="text">
-                                                        <h2 className="title"><a href="room-overview.html">Classic Room</a></h2>
-                                                        <p>Double room</p>
-                                                    </div>
-                                                    <div className="book">
-                                                        <div>
-                                                            {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
-                                                        </div>
-                                                        <div>
-                                                            <span className="price h2">€ 129,00</span>
-                                                            <span>per night</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>
-                                    {/* === rooms item === */}
-                                    <div className="col-sm-6 col-md-4">
-                                        <div className="item">
-                                            <article>
-                                                <div className="image">
-                                                    <img src="assets/images/room-3.jpg" alt="" />
-                                                </div>
-                                                <div className="details">
-                                                    <div className="text">
-                                                        <h2 className="title"><a href="room-overview.html">Superior Room</a></h2>
-                                                        <p>Queen size bed</p>
-                                                    </div>
-                                                    <div className="book">
-                                                        <div>
-                                                            {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                            <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
-                                                        </div>
-                                                        <div>
-                                                            <span className="price h2">€ 159,00</span>
-                                                            <span>per night</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>
+                                    {this.renderRoom(arrayData)}
                                 </div>
                             </div> {/*/container*/}
                         </div>
