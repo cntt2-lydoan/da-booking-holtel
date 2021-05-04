@@ -20,7 +20,7 @@ export default class AboutUs extends Component {
                                     {/*text-block*/}
                                     <div className="text-block">
                                         <div className="row">
-                                            <div className="col-md-8 col-md-offset-2">
+                                            <div className="col-md-offset-2">
                                                 <div className="text">
                                                     <h2>About Colina Hotel</h2>
                                                     {/* ===  Gallery === */}
@@ -217,7 +217,7 @@ export default class AboutUs extends Component {
                                     {/* === text-card === */}
                                     <div className="text-block">
                                         <div className="row">
-                                            <div className="col-md-8 col-lg-offset-2">
+                                            <div className="col-lg-offset-2">
                                                 <h2>Luxury</h2>
                                                 <p>
                                                     Timeshare and destination clubs are a form of property ownership involving ownership of an individual unit

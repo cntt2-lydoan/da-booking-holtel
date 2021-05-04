@@ -48,27 +48,27 @@ class Login extends Component {
             console.log("error login with google");
         });
     }
-    loginWithFacebook(){
-        var provider = new firebase.auth.FacebookAuthProvider();
-        firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then((result) => {
-            /** @type {firebase.auth.OAuthCredential} */
-            var credential = result.credential;
+    // loginWithFacebook(){
+    //     var provider = new firebase.auth.FacebookAuthProvider();
+    //     firebase
+    //     .auth()
+    //     .signInWithPopup(provider)
+    //     .then((result) => {
+    //         /** @type {firebase.auth.OAuthCredential} */
+    //         var credential = result.credential;
 
-            // The signed-in user info.
-            var user = result.user;
+    //         // The signed-in user info.
+    //         var user = result.user;
 
-            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-            var accessToken = credential.accessToken;
+    //         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    //         var accessToken = credential.accessToken;
 
-            // ...
-        })
-        .catch((error) => {
-            console.log("error login with facebook");
-        });
-    }
+    //         // ...
+    //     })
+    //     .catch((error) => {
+    //         console.log("error login with facebook");
+    //     });
+    // }
 
     render() {
         const { errors, email, password } = this.state;
@@ -102,9 +102,9 @@ class Login extends Component {
                                 </span>
                 </div>
                 <div className="flex-c p-b-112">
-                    <a href="#" className="login100-social-item" onClick={() => this.loginWithFacebook()}>
+                    {/* <a href="#" className="login100-social-item" onClick={() => this.loginWithFacebook()}>
                         <i className="fa fa-facebook-f" />
-                    </a>
+                    </a> */}
                     <a href="#" className="login100-social-item" onClick={() => this.loginWithGoogle()}>
                         <img src="login/images/icons/icon-google.png" alt="GOOGLE" />
                     </a>

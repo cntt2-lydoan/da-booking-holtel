@@ -1,271 +1,129 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import Slider from 'react-slick';
+import axios from 'axios';
+import { chuyenDoiURL } from '../../utils/notification';
 
 export default class Home extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            arrayData: [],
+            arrayWishlist: []
+        }
+    }
+    
+    componentDidMount() {
+        let objects = [];
+
+        axios.get('https://booking-hotel-5cb23-default-rtdb.firebaseio.com/room.json')
+            .then((response) => {
+                if (response.data !== null) {
+                    const data = response.data;
+                    // console.log(data);
+
+                    objects = Object.values(response.data);
+                    const keys = Object.keys(data);
+
+                    objects.map((values, key) => {
+                        values.id = keys[key];
+                    });
+                    // console.log(objects);
+                    this.setState({
+                        arrayData: objects
+                    });
+                }
+
+            });
+    }
+    redirectToDetails(value) {
+        this.props.history.push(`/room-details/id=/${value.id}/name=/${chuyenDoiURL(value.name)}`)
+    }
+    renderRoom = (array) => {
+        let res = array.map((value, key) => {
+                return (
+                    <div className="col-3">
+                        <div className="item">
+                            <article>
+                                <div className="image" onClick={() => this.redirectToDetails(value)}>
+                                    <img src={value.listImage[0]} alt="" />
+                                </div>
+                                <div className="details">
+                                    <div className="text">
+                                        {/* <a href="room-overview.html">Presidential Suite</a> */}
+                                        <h2 className="title"><NavLink to="/room-overview" onClick={() => this.redirectToDetails(value)}>{value.name}</NavLink></h2>
+                                        <p>{value.categoryRoom}</p>
+                                    </div>
+                                    <div className="book">
+                                        <div>
+                                            {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
+                                            <NavLink to={"/booking-step-one/id=/"+value.id+"/name=/"+chuyenDoiURL(value.name)} className="btn btn-main">Book now</NavLink>
+                                          
+                                        </div>
+                                        <div>
+                                            <span className="price h2">{value.unit} {value.price}</span>
+                                            <span>per night</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                )
+            
+        })
+        return res;
+    }
     render() {
+        var settings = {
+            arrow: true,
+            dots: false,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
+        var settings1 = {
+            arrow: true,
+            dots: false,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
+        const { arrayData } = this.state;
+        
         return (
             <div>
                 <div>
                     {/* ========================  Header content ======================== */}
-                    <section className="frontpage-slider">
-                        <div className="owl-slider owl-slider-header">
-                            {/* === slide item === */}
-                            <div className="item" style={{ backgroundImage: 'url(assets/images/slide-3.jpg)' }}>
-                                <div className="box text-center">
-                                    <div className="container">
-                                        <h2 className="title animated h1" data-animation="fadeInDown">Fairmont managed!</h2>
+                    <section className="frontpage-slider" style={{position: 'relative'}}>
+                    <div className="box text-center"  style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000'}}>
+                                    <div className="container" style={{color: 'white'}}>
+                                        <h2 className="title animated h1" data-animation="fadeInDown" style={{color: 'white'}}>Fairmont managed!</h2>
                                         <div className="desc animated" data-animation="fadeInUp">The elegant Champagne Bar, the stylish Colina Club.</div>
                                         <div className="desc animated" data-animation="fadeInUp">Guestrooms and luxurious suites</div>
-                                        <div className="animated" data-animation="fadeInUp">
-                                            <a href="#" className="btn btn-clean">Get insipred</a>
-                                        </div>
                                     </div>
                                 </div>
+                        <Slider  {...settings}>
+                            <div className="item" >
+                                <img src="assets/images/slide-3.jpg" className="img-hover"  alt=""/>
                             </div>
-                            {/* === slide item === */}
-                            <div className="item" style={{ backgroundImage: 'url(assets/images/slide-2.jpg)' }}>
-                                <div className="box text-center">
-                                    <div className="container">
-                                        <h2 className="title animated h1" data-animation="fadeInDown">
-                                            A moment of <br /> <span>pure prestige</span>
-                                        </h2>
-                                        <div className="desc animated" data-animation="fadeInUp">
-                                            Lavish social and business events
-            </div>
-                                        <div className="desc animated" data-animation="fadeInUp">
-                                            and unforgettable weddings.
-            </div>
-                                        <div className="animated" data-animation="fadeInUp">
-                                            <a href="https://themeforest.net/item/colina-hotel-website-template/20977257" className="btn btn-clean">Buy this template</a>
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div className="item" >
+                            <img src="assets/images/slide-2.jpg" className="img-hover"  alt=""/>
                             </div>
-                            {/* === slide item === */}
-                            <div className="item" style={{ backgroundImage: 'url(assets/images/slide-1.jpg)' }}>
-                                <div className="box text-center">
-                                    <div className="container">
-                                        <h2 className="title animated h1" data-animation="fadeInDown">
-                                            The privacy and <br />
-              individuality of a custom
-            </h2>
-                                        <div className="desc animated" data-animation="fadeInUp">
-                                            The Residences have their own dedicated private entrance as well <br />
-              as an anonymous "celebrity" entrance, for ultimate privacy.
-            </div>
-                                        <div className="animated" data-animation="fadeInUp">
-                                            <a href="#" className="btn btn-clean">Virtual tour</a>
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div className="item" >
+                            <img src="assets/images/slide-1.jpg" className="img-hover"  alt=""/>
                             </div>
-                        </div> {/*/owl-slider*/}
+                        </Slider>
                     </section>
-                    {/* ========================  Rooms ======================== */}
-                    <section className="rooms rooms-widget rooms-inner">
-                        {/* === rooms header === */}
-                        <div className="section-header">
-                            <div className="container">
-                                <h2 className="title">Rooms accommodation <a href="rooms-category.html" className="btn btn-sm btn-clean">View all</a></h2>
-                                <p>Designed as a privileged almost private place where you'll feel right at home</p>
-                            </div>
-                        </div>
-                        {/* === rooms content === */}
-                        <div className="container">
-                            <div className="owl-rooms owl-theme">
-                                {/* === rooms item === */}
-                                <div className="item">
-                                    <article>
-                                        <div className="image">
-                                            <img src="assets/images/room-1.jpg" alt="" />
-                                        </div>
-                                        <div className="details">
-                                            <div className="text">
-                                                <h3 className="title"><a href="room-overview.html">Club Room</a></h3>
-                                                <p>Single room</p>
-                                            </div>
-                                            <div className="book">
-                                                <div>
-                                                    {/* <a href="room-overview.html" className="btn btn-main">Book now</a> */}
-                                                    <NavLink to="/booking-step-one" className="btn btn-main">Book now</NavLink>
-                                                </div>
-                                                <div>
-                                                    <span className="price h4">$ 98,00</span>
-                                                    <span>per night</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                {/* === rooms item === */}
-                                <div className="item">
-                                    <article>
-                                        <div className="image">
-                                            <img src="assets/images/room-2.jpg" alt="" />
-                                        </div>
-                                        <div className="details">
-                                            <div className="text">
-                                                <h3 className="title"><a href="room-overview.html">Classic Room</a></h3>
-                                                <p>Double room</p>
-                                            </div>
-                                            <div className="book">
-                                                <div>
-                                                    <a href="room-overview.html" className="btn btn-main">Book now</a>
-                                                </div>
-                                                <div>
-                                                    <span className="price h4">$ 129,00</span>
-                                                    <span>per night</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                {/* === rooms item === */}
-                                <div className="item">
-                                    <article>
-                                        <div className="image">
-                                            <img src="assets/images/room-3.jpg" alt="" />
-                                        </div>
-                                        <div className="details">
-                                            <div className="text">
-                                                <h3 className="title"><a href>Superior Room</a></h3>
-                                                <p>Queen size bed</p>
-                                            </div>
-                                            <div className="book">
-                                                <div>
-                                                    <a href="room-overview.html" className="btn btn-main">Book now</a>
-                                                </div>
-                                                <div>
-                                                    <span className="price h4">$ 159,00</span>
-                                                    <span>per night</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                {/* === rooms item === */}
-                                <div className="item">
-                                    <article>
-                                        <div className="image">
-                                            <img src="assets/images/room-4.jpg" alt="" />
-                                        </div>
-                                        <div className="details">
-                                            <div className="text">
-                                                <h3 className="title"><a href="room-overview.html">Family Suite</a></h3>
-                                                <p>Family room</p>
-                                            </div>
-                                            <div className="book">
-                                                <div>
-                                                    <a href="room-overview.html" className="btn btn-main">Book now</a>
-                                                </div>
-                                                <div>
-                                                    <span className="price h4">$ 199,00</span>
-                                                    <span>per night</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                            </div>{/*/owl-rooms*/}
+                    <div className="container">
+                            <Slider  {...settings1}>
+                                    {this.renderRoom(arrayData)}
+                            </Slider>
                         </div> {/*/container*/}
-                    </section>
-                    {/* ======================== Booking ======================== */}
-                    <section className="booking booking-default-theme">
-                        <div className="section-header">
-                            <div className="container">
-                                <h2 className="title">Check Availability</h2>
-                            </div>
-                        </div>
-                        <div className="booking-wrapper">
-                            <div className="container">
-                                <div className="row">
-                                    {/*=== date arrival ===*/}
-                                    <div className="col-xs-4 col-sm-3">
-                                        <div className="date" id="dateArrival" data-text="Arrival">
-                                            <input className="datepicker" readOnly="readonly" />
-                                            <div className="date-value" />
-                                        </div>
-                                    </div>
-                                    {/*=== date departure ===*/}
-                                    <div className="col-xs-4 col-sm-3">
-                                        <div className="date" id="dateDeparture" data-text="Departure">
-                                            <input className="datepicker" readOnly="readonly" />
-                                            <div className="date-value" />
-                                        </div>
-                                    </div>
-                                    {/*=== guests ===*/}
-                                    <div className="col-xs-4 col-sm-2">
-                                        <div className="guests" data-text="Guests">
-                                            <div className="result">
-                                                <input className="qty-result" type="text" defaultValue={2} id="qty-result" readOnly="readonly" />
-                                                <div className="qty-result-text date-value" id="qty-result-text" />
-                                            </div>
-                                            {/*=== guests list ===*/}
-                                            <ul className="guest-list">
-                                                <li className="header">
-                                                    Please choose number of guests <span className="qty-apply"><i className="icon icon-cross" /></span>
-                                                </li>
-                                                {/*=== adults ===*/}
-                                                <li className="clearfix">
-                                                    {/*=== Adults value ===*/}
-                                                    <div>
-                                                        <input className="qty-amount" defaultValue={2} type="text" id="ticket-adult" data-value={2} readOnly="readonly" />
-                                                    </div>
-                                                    <div>
-                                                        <span>Adults <small>16+ years</small></span>
-                                                    </div>
-                                                    {/*=== Add/remove quantity buttons ===*/}
-                                                    <div>
-                                                        <input className="qty-btn qty-minus" defaultValue="-" type="button" data-field="ticket-adult" />
-                                                        <input className="qty-btn qty-plus" defaultValue="+" type="button" data-field="ticket-adult" />
-                                                    </div>
-                                                </li>
-                                                {/*=== chilrens ===*/}
-                                                <li className="clearfix">
-                                                    {/*=== Adults value ===*/}
-                                                    <div>
-                                                        <input className="qty-amount" defaultValue={0} type="text" id="ticket-children" data-value={0} readOnly="readonly" />
-                                                    </div>
-                                                    {/*=== Label ===*/}
-                                                    <div>
-                                                        <span>Children <small>2-11 years</small></span>
-                                                    </div>
-                                                    {/*=== Add/remove quantity buttons ===*/}
-                                                    <div>
-                                                        <input className="qty-btn qty-minus" defaultValue="-" type="button" data-field="ticket-children" />
-                                                        <input className="qty-btn qty-plus" defaultValue="+" type="button" data-field="ticket-children" />
-                                                    </div>
-                                                </li>
-                                                {/*=== Infants ===*/}
-                                                <li className="clearfix">
-                                                    {/*=== Adults value ===*/}
-                                                    <div>
-                                                        <input className="qty-amount" defaultValue={0} type="text" id="ticket-infants" data-value={0} readOnly="readonly" />
-                                                    </div>
-                                                    {/*=== Label ===*/}
-                                                    <div>
-                                                        <span>Infants <small>Under 2 years</small></span>
-                                                    </div>
-                                                    {/*=== Add/remove quantity buttons ===*/}
-                                                    <div>
-                                                        <input className="qty-btn qty-minus" defaultValue="-" type="button" data-field="ticket-infants" />
-                                                        <input className="qty-btn qty-plus" defaultValue="+" type="button" data-field="ticket-infants" />
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    {/*=== button ===*/}
-                                    <div className="col-xs-12 col-sm-4">
-                                        <a href="reservation-1.html" className="btn btn-clean">
-                                            Book now
-              <small>Best Prices Guaranteed</small>
-                                        </a>
-                                    </div>
-                                </div> {/*/row*/}
-                            </div>{/*/booking-wrapper*/}
-                        </div> {/*/container*/}
-                    </section>
                     {/* ========================  Stretcher widget ======================== */}
                     <section className="stretcher-wrapper">
                         {/* === stretcher header === */}
@@ -486,7 +344,6 @@ export default class Home extends Component {
                             </div> {/*/row*/}
                         </div> {/*/container*/}
                     </section>
-                    {/* ======================== Image blocks ======================== */}
                     <section className="image-blocks image-blocks-header">
                         <div className="section-header" style={{ backgroundImage: 'url(assets/images/header-1.jpg)' }}>
                             <div className="container">
@@ -604,103 +461,7 @@ export default class Home extends Component {
                             </div>
                         </div> {/*/container*/}
                     </section>
-                    {/* ======================== Quotes ======================== */}
-                    <section className="quotes quotes-slider" style={{ backgroundImage: 'url(assets/images/header-1.jpg)' }}>
-                        <div className="container">
-                            {/* === Quotes header === */}
-                            <div className="section-header">
-                                <h2 className="title">Testimonials</h2>
-                                <p>What other think about us</p>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-8 col-md-offset-2">
-                                    <div className="quote-carousel">
-                                        {/* === quoute item === */}
-                                        <div className="quote">
-                                            <div className="text">
-                                                <h4>Jenna Hale</h4>
-                                                <p>Ipsum dolore eros dolore <br />dolor dolores sit iriure</p>
-                                            </div>
-                                            <div className="more">
-                                                <div className="rating">
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* === quoute item === */}
-                                        <div className="quote">
-                                            <div className="text">
-                                                <h4>Glen Jordan</h4>
-                                                <p>Ipsum dolore eros dolore <br />dolor dolores sit iriure</p>
-                                            </div>
-                                            <div className="more">
-                                                <div className="rating">
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* === quoute item === */}
-                                        <div className="quote">
-                                            <div className="text">
-                                                <h4>Lea Nils</h4>
-                                                <p>Ipsum dolore eros dolore <br />dolor dolores sit iriure</p>
-                                            </div>
-                                            <div className="more">
-                                                <div className="rating">
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* === quoute item === */}
-                                        <div className="quote">
-                                            <div className="text">
-                                                <h4>Nora Star</h4>
-                                                <p>Ipsum dolore eros dolore <br />dolor dolores sit iriure</p>
-                                            </div>
-                                            <div className="more">
-                                                <div className="rating">
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* === quoute item === */}
-                                        <div className="quote">
-                                            <div className="text">
-                                                <h4>Glen Jordan</h4>
-                                                <p>Ipsum dolore eros dolore <br />dolor dolores sit iriure</p>
-                                            </div>
-                                            <div className="more">
-                                                <div className="rating">
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                    <span className="fa fa-star" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> {/*/quote-carousel*/}
-                                </div>
-                            </div> {/*/row*/}
-                        </div> {/*/container*/}
-                    </section>
-                    {/* ========================  Subscribe ======================== */}
+                    
                     <section className="subscribe">
                         <div className="container">
                             <div className="box">

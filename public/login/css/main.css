@@ -461,3 +461,13 @@ iframe {
   font-weight: 500;
   color: white;
 }
+.btn-logout{
+  display: flex;
+}
+.btn-logout li img{
+  width: 30px;
+  border-radius: 50%;
+}
+.btn-login-m{
+  margin-top: -26px;
+}

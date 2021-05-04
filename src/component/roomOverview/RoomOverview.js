@@ -77,6 +77,7 @@ export default class RoomOverview extends Component {
             slidesToShow: 1,
             slidesToScroll: 1
         };
+        console.log(room);
         return (
             <div>
                 <div>

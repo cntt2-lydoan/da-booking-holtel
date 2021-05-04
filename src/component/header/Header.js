@@ -4,16 +4,24 @@ import { NavLink } from 'react-router-dom'
 import LoginModal from './../login/index';
 
 import firebase from 'firebase';
+import { getCount } from './../../utils/notification';
+import { connect } from 'react-redux';
 
-
-export default class Header extends Component {
+class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: ''
-        }
+            user: '',  
+        count: 0   }
     }
+
     componentDidMount() {
+
+        var array = parseInt(localStorage.getItem('countWishlist')) || 0;
+        this.setState({
+            count: array
+        });
+               
         var ahihi = this;
 
         firebase.auth().onAuthStateChanged(function (user) {
@@ -29,6 +37,23 @@ export default class Header extends Component {
         });
 
 
+    }
+
+    displayCount(countLocal, countProps) {
+        let res;
+
+        if(countLocal == 0 && countProps == 0) {
+            res = 0;
+        }
+        else {
+              if(countLocal > countProps) {
+            res=countLocal
+        }
+        else {
+            res=countProps
+        }
+        }
+        return res;
 
     }
 
@@ -52,10 +77,12 @@ export default class Header extends Component {
     }
     render() {
         console.log(this.state.user);
-        const { user } = this.state;
+        const { user, wishlist} = this.state;
+
+        console.log(this.props.countWishlist)
         return (
             <div>
-                <header>
+                <header id="header" className=''>
                     <div className="container">
                         <nav className="navigation-top clearfix">
                             <div className="navigation-top-left">
@@ -114,7 +141,10 @@ export default class Header extends Component {
                                     <li>
                                         <NavLink to="/contact">Contact</NavLink>
                                     </li>
-                                    {/* <LoginModal/> */}
+                                    <li>
+                                    <NavLink to="/wishlist">  <i class="fa fa-list" aria-hidden="true"></i> Wishlist<span className="number-of-wishlist">{this.displayCount(this.state.count, this.props.countWishlist)}</span> </NavLink>
+                                   
+                                    </li>
                                     
                                         {user == '' ? <LoginModal/>  : <li className="btn-login" style={{ cursor: 'pointer' }} onClick={() => this.logout()}>Logout</li>}
                                                             
@@ -128,3 +158,14 @@ export default class Header extends Component {
         )
     }
 }
+const mapStateToProps = (state, ownProps) => {
+    return {
+        countWishlist: state.countWishlist,
+    }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+       
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

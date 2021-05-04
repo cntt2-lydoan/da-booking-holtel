@@ -12,22 +12,24 @@ class Sidebar extends Component {
                         </div>
                         <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
                     </a>
-                    {/* Divider */}
                     <hr className="sidebar-divider my-0" />
-                    {/* Nav Item - Dashboard */}
                     <li className="nav-item active">
-                        <a className="nav-link" href="index.html">
+                        <NavLink className="nav-link" to="/">
                             <i className="fas fa-fw fa-tachometer-alt" />
-                            <span>Dashboard</span></a>
+                            <span>Visit Homepages</span></NavLink>
                     </li>
-                    {/* Divider */}
                     <hr className="sidebar-divider" />
-                    {/* Heading */}
-                    <div className="sidebar-heading">
-                        Interface
-    </div>
-                    {/* Nav Item - Pages Collapse Menu */}
                     <li className="nav-item">
+                        <NavLink className="nav-link" to="/manage-rooms">
+                            <i className="fas fa-fw fa-chart-area" />
+                            <span>Manage Rooms</span></NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/manage-order">
+                            <i className="fas fa-fw fa-chart-area" />
+                            <span>Manage order</span></NavLink>
+                    </li>
+                    {/* <li className="nav-item">
                         <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                             <i className="fas fa-fw fa-cog" />
                             <span>Components</span>
@@ -40,7 +42,6 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </li>
-                    {/* Nav Item - Utilities Collapse Menu */}
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                             <i className="fas fa-fw fa-wrench" />
@@ -56,13 +57,10 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </li>
-                    {/* Divider */}
                     <hr className="sidebar-divider" />
-                    {/* Heading */}
                     <div className="sidebar-heading">
                         Addons
     </div>
-                    {/* Nav Item - Pages Collapse Menu */}
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                             <i className="fas fa-fw fa-folder" />
@@ -81,18 +79,21 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </li>
-                    {/* Nav Item - Charts */}
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/manage-rooms">
                             <i className="fas fa-fw fa-chart-area" />
                             <span>Manage Rooms</span></NavLink>
                     </li>
-                    {/* Nav Item - Tables */}
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/manage-order">
+                            <i className="fas fa-fw fa-chart-area" />
+                            <span>Manage order</span></NavLink>
+                    </li>
                     <li className="nav-item">
                         <a className="nav-link" href="tables.html">
                             <i className="fas fa-fw fa-table" />
                             <span>Tables</span></a>
-                    </li>
+                    </li> */}
                     {/* Divider */}
                     <hr className="sidebar-divider d-none d-md-block" />
                     {/* Sidebar Toggler (Sidebar) */}

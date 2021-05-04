@@ -1,4 +1,3 @@
-
 import { notification } from 'antd';
 import 'antd/dist/antd.css';
 import firebase from 'firebase';
@@ -12,13 +11,6 @@ export const notificationComponent = (type, message) => {
     });
 };
 
-export const getCount = (array) => {
-    var count = 0;
-    for (var i = 0; i < array.length; i++) {
-        count += array[i].count;
-    }
-    return count;
-}
 export const getSubtotal = (array) => {
     var subtotal = 0;
     for (var i = 0; i < array.length; i++) {
@@ -65,6 +57,13 @@ export const addToCart = (value, count) => {
 
     notificationComponent('success', `Đã thêm ${value.productName} vào giỏ hàng !!!`)
 
+}
+export const getCount = (array) => {
+    var count = 0;
+    for (var i = 0; i < array.length; i++) {
+        count += array[i].count;
+    }
+    return count;
 }
 export const total = (array) => {
     let total = 0;
@@ -169,6 +168,20 @@ export const getCurrentDate = () => {
     let year = newDate.getFullYear();
 
     return `${date < 10 ? `0${date}` : `${date}`}-${month < 10 ? `0${month}` : `${month}`}-${year}`
+
+
+}
+
+export const getMoment = () => {
+
+
+    var currentdate = new Date(); 
+var datetime =
+                currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
+    return datetime;
 
 
 }

@@ -13,6 +13,7 @@ import BlogCategory from './../component/blog/BlogCategory';
 import BlogItem from './../component/blog/BlogItem';
 import Contact from './../component/contact/Contact';
 import Home from './../component/home/Home';
+import Wishlist from './../component/wishlist/Wishlist';
 
 
 
@@ -29,6 +30,7 @@ export default class Direction extends Component {
                 <Route exact path="/booking-step-two/id=/:id/name=/:name" component={BookingStepTwo}></Route> 
                 <Route exact path="/booking-step-three/id=/:id/name=/:name" component={BookingStepThree}></Route> 
                 <Route exact path="/facilities" component={Facility}></Route> 
+                <Route exact path="/wishlist" component={Wishlist}></Route> 
                 <Route exact path="/blog-category" component={BlogCategory}></Route> 
                 <Route exact path="/blog-item" component={BlogItem}></Route> 
                 <Route exact path="/contact" component={Contact}></Route> 

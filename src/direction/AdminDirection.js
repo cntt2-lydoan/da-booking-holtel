@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Navbar from '../admin/Navbar';
 import Footer from '../admin/Footer';
 import ManageRooms from './../admin/ManageRooms';
+import ManageOrder from './../admin/ManageOrder';
 
 class AdminDirection extends Component {
     render() {
@@ -19,6 +20,7 @@ class AdminDirection extends Component {
                             <Navbar />
                                 <Route exact path="/" component={HomeAdmin} />
                                 <Route exact path="/manage-rooms" component={ManageRooms} />
+                                <Route exact path="/manage-order" component={ManageOrder} />
                         </div>
                         <Footer />
                     </div>

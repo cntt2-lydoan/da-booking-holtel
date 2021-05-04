@@ -12,8 +12,16 @@ export default class BookingStepOne extends Component {
                 id: this.props.match.params.id,
                 facility: [],
                 listImage: []
-            }
+            },
+            guest_count: 1,
+            night:1
         }
+    }
+
+    isChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
     componentDidMount() {
 
@@ -30,7 +38,13 @@ export default class BookingStepOne extends Component {
     }
 
     redirect = (r) => {
+        localStorage.setItem('guest_count', this.state.guest_count);
+        localStorage.setItem('night', this.state.night);
+        localStorage.setItem('total', this.state.night*this.state.room.price);
+
+       setTimeout(() => {
         this.props.history.push(`/booking-step-two/id=/${this.props.match.params.id}/name=/${chuyenDoiURL(r.name)}`)
+       }, 1000);
     }
 
     
@@ -41,7 +55,7 @@ export default class BookingStepOne extends Component {
 
 
     render() {
-        const { room } = this.state;
+        const { room, guest_count, night } = this.state;
         return (
             <div>
                 {/* ========================  Checkout ======================== */}
@@ -61,12 +75,12 @@ export default class BookingStepOne extends Component {
                                     <li className="col-md-4 active">
                                         <span data-text="Room & rates"  />
                                     </li>
-                                    <li className="col-md-4">
+                                    {/* <li className="col-md-4">
                                         <span data-text="Reservation" />
                                     </li>
                                     <li className="col-md-4">
                                         <span data-text="Checkout"/>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -94,14 +108,16 @@ export default class BookingStepOne extends Component {
                                                     <strong>Arrival date</strong> <br /> <a href="#">{getCurrentDate()}</a>
                                                 </p>
                                                 <p>
-                                                    <strong>Guests</strong> <br />  2 Adults
-                  </p>
+                                                    <strong>Guests (person)</strong> <br />
+                                                    <input className="col-md-12" min="1" type="number" value={guest_count} name="guest_count" onChange={(e) => this.isChange(e)} /> 
+                                                    </p>
                                                 <p>
-                                                    <strong>Nights</strong> <br /> 1
+                                                    <strong>Nights</strong> <br />
+                                                    <input className="col-md-12" min="1" type="number" value={night} name="night" onChange={(e) => this.isChange(e)} />
                   </p>
                                             </div>
                                             <div className="price">
-                                                <span className="final h3">{room.unit} {room.price}</span>
+                                                <span className="final h3">{room.unit} {night * room.price}</span>
                                             </div>
                                             <span className="icon icon-cross icon-delete" />
                                         </div>

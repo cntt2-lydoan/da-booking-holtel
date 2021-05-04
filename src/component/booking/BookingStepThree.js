@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
-import { chuyenDoiURL, getCurrentDate } from './../../utils/notification';
+import { chuyenDoiURL, getCurrentDate, getMoment } from './../../utils/notification';
 import { datas } from './../../connectFirebase/firebaseConnect';
 
 export default class BookingStepThree extends Component {
@@ -12,9 +12,15 @@ export default class BookingStepThree extends Component {
                 id: this.props.match.params.id,
                 facility: [],
                 listImage: []
-            }
+            },
+            user: {},
+            total: 0
         }
 
+    }
+
+    returnhome() {
+        this.props.history.push("/")
     }
 
     ridirectBack = (r) => {
@@ -28,9 +34,21 @@ export default class BookingStepThree extends Component {
                 room: res.val()
             });
         })
+
+        
+        let array = JSON.parse(localStorage.getItem('personal-information')) || {};
+        this.setState({
+            user: array
+        })
+
+        let aggag = localStorage.getItem('total');
+        this.setState({
+            total: aggag
+        })
     }
     render() {
-        const {room} = this.state;
+        const {room, user , total} = this.state;
+        console.log(room);
         return (
             <div>
                 {/* ========================  Checkout ======================== */}
@@ -47,14 +65,14 @@ export default class BookingStepThree extends Component {
                         <div className="container">
                             <div className="stepper">
                                 <ul className="row">
-                                    <li className="col-md-4 active">
-                                        <a href="reservation-1.html"><span data-text="Room & rates" /></a>
+                                    {/* <li className="col-md-4 active">
+                                        <span data-text="Room & rates" />
                                     </li>
                                     <li className="col-md-4 active">
-                                        <a href="reservation-2.html"><span data-text="Reservation" /></a>
-                                    </li>
+                                       <span data-text="Reservation" />
+                                    </li> */}
                                     <li className="col-md-4 active">
-                                        <a href="reservation-3.html"><span data-text="Checkout" /></a>
+                                        <span data-text="Checkout" />
                                     </li>
                                 </ul>
                             </div>
@@ -77,49 +95,37 @@ export default class BookingStepThree extends Component {
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Name</strong> <br />
-                                                                <span>John Doe</span>
+                                                                <span> {user.firstname}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Email</strong><br />
-                                                                <span>johndoe@company.com</span>
+                                                                <span>{user.email}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Phone</strong><br />
-                                                                <span>+122 523 352</span>
+                                                                <span>{user.phone}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Zip</strong><br />
-                                                                <span>94107</span>
+                                                                <span>{user.zipcode}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>City</strong><br />
-                                                                <span>San Francisco, California</span>
+                                                                <span>{user.city}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Address</strong><br />
-                                                                <span>795 Folsom Ave, Suite 600</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <div className="form-group">
-                                                                <strong>Company name</strong><br />
-                                                                <span>Your company name</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <div className="form-group">
-                                                                <strong>Company phone</strong><br />
-                                                                <span>+122 333 6665</span>
+                                                                <span>{user.address}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -156,13 +162,13 @@ export default class BookingStepThree extends Component {
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Transaction time</strong> <br />
-                                                                <span>06/30/2017 at 00:59</span>
+                                                                <span>{getCurrentDate()} at {getMoment()}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div className="form-group">
                                                                 <strong>Amount</strong><br />
-                                                                <span>$ 1259,00</span>
+                                                                <span>{room.unit} {total}</span>
                                                             </div>
                                                         </div>
                                                         <div className="col-md-6">
@@ -176,6 +182,18 @@ export default class BookingStepThree extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="cart-wrapper">
+                                    <div className="clearfix">
+                                        <div className="cart-block cart-block-footer cart-block-footer-price clearfix">
+                                            <div>
+                                                <div onClick={()=> this.ridirectBack(room)} className="btn btn-clean-dark">Back</div>
+                                            </div>
+                                            <div>
+                                                <div onClick={() => this.returnhome()} style={{cursor: 'pointer'}} class="btn btn-main">HOME <span className="icon icon-chevron-right" /></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                                 
                             </div>

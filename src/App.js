@@ -14,9 +14,9 @@ export default class App extends Component {
       <BrowserRouter>
         <Direction/>
       </BrowserRouter>
-      // <BrowserRouter>
-      //   <AdminDirection />
-      // </BrowserRouter>
+    //   <BrowserRouter>
+    //     <AdminDirection />
+    //   </BrowserRouter>
     )
   }
 }
